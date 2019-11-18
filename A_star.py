@@ -141,9 +141,6 @@ for i in range(1):
     spots[2][7].obstacle = True
     obstacles.append(spots[2][7])
 
-    spots[0][8].obstacle = True
-    obstacles.append(spots[0][8])
-
     spots[5][4].obstacle = True
     obstacles.append(spots[5][4])
 
@@ -164,8 +161,18 @@ end = spots[-1][-1]
 OpenSet.append(start)
 current = start
 
-while True:
-    clock.tick(30)
+gaming = True
+while gaming:
+    clock.tick(12)
+    #Find the path
+    path = []
+    temp = current
+    path.append(temp)
+    #As long as the temp has a previous
+    while temp.previous:
+        current = temp
+        path.append(temp.previous)
+        temp = temp.previous
     for eventos in pygame.event.get():
         pos = pygame.mouse.get_pos()
         if eventos.type == QUIT:
@@ -192,6 +199,7 @@ while True:
                 temp = temp.previous
             system('cls')
             print('Finish!')
+            gaming = False
         try:
             OpenSet.remove(current)
         except ValueError as e:
@@ -209,16 +217,28 @@ while True:
                     if temp < neighbor.g:
                         neighbor.g = temp
                 else:
+                    newpath = True
                     neighbor.g = temp
                     OpenSet.append(neighbor)
         
                 neighbor.previous = current
             # We aply Heuristics
-            neighbor.h = heuristic(neighbor, end)
-            neighbor.f = neighbor.g + neighbor.h
+            if newpath:
+                neighbor.h = heuristic(neighbor, end)
+                neighbor.f = neighbor.g + neighbor.h
             
     else:
         # No solution
+        print('No Solution')
+        gaming = False
         pass
 
     redrawGameWindow(screen)
+
+while True:
+    clock.tick(50)
+    redrawGameWindow(screen)
+    for eventos in pygame.event.get():
+        pos = pygame.mouse.get_pos()
+        if eventos.type == QUIT:
+            sys.exit(0)
