@@ -15,6 +15,7 @@ HEIGHT = 500
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("A* Algorithm")
 clock = pygame.time.Clock()
+obstacles = []
 
 # How many columns and rows?
 cols = 9
@@ -90,68 +91,22 @@ for i in range(len(spots)):
     for j in range(len(spots[i])):
         spots[i][j].addNeighbors(spots)
 
+
+
 # Definir Obstáculos
-obstacles = []
-for i in range(1):
-    spots[3][1].obstacle = True
-    obstacles.append(spots[3][1])
+obstalce_x = []
+obstacle_y = []
+obstacle_file = open('Obstacles.txt')
+pair_coodinates = obstacle_file.read()
+obstacle_list = pair_coodinates.split()
+for pair in obstacle_list:
+    obstalce_x.append(pair[0])
+    obstacle_y.append(pair[2])
+print(obstalce_x, obstacle_y)
 
-    spots[3][2].obstacle = True
-    obstacles.append(spots[3][2])
-
-    spots[4][1].obstacle = True
-    obstacles.append(spots[4][1])
-
-    spots[4][2].obstacle = True
-    obstacles.append(spots[4][2])
-
-    spots[5][2].obstacle = True
-    obstacles.append(spots[5][2])
-
-    spots[5][3].obstacle = True
-    obstacles.append(spots[5][3])
-
-    spots[6][2].obstacle = True
-    obstacles.append(spots[6][2])
-
-    spots[6][3].obstacle = True
-    obstacles.append(spots[6][3])
-
-    spots[2][4].obstacle = True
-    obstacles.append(spots[2][4])
-
-    spots[2][5].obstacle = True
-    obstacles.append(spots[2][5])
-
-    spots[3][4].obstacle = True
-    obstacles.append(spots[3][4])
-
-    spots[3][5].obstacle = True
-    obstacles.append(spots[3][5])
-
-    spots[1][6].obstacle = True
-    obstacles.append(spots[1][6])
-
-    spots[1][7].obstacle = True
-    obstacles.append(spots[1][7])
-
-    spots[2][6].obstacle = True
-    obstacles.append(spots[2][6])
-
-    spots[2][7].obstacle = True
-    obstacles.append(spots[2][7])
-
-    spots[5][4].obstacle = True
-    obstacles.append(spots[5][4])
-
-    spots[5][5].obstacle = True
-    obstacles.append(spots[5][5])
-
-    spots[6][4].obstacle = True
-    obstacles.append(spots[6][4])
-
-    spots[6][5].obstacle = True
-    obstacles.append(spots[6][5])
+for x, y in zip(obstalce_x, obstacle_y):
+    spots[int(x)][int(y)].obstacle = True
+    obstacles.append(spots[int(x)][int(y)])
 
 OpenSet = []
 closedSet = []
@@ -200,6 +155,10 @@ while gaming:
             system('cls')
             print('Finish!')
             gaming = False
+            path_file = open('Path_list', 'w')
+            for spot in path:
+                path_file.write(f'{spot.x, spot,y}')
+            path_file.close()
         try:
             OpenSet.remove(current)
         except ValueError as e:
