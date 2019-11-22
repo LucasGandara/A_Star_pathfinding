@@ -64,6 +64,8 @@ def redrawGameWindow(win):
         for j in range(rows):
             pygame.draw.rect(win, (0, 0, 255), (spots[i][j].x * w, 1 + spots[i][j].y * h, w, h), 1)
 
+
+    
     # Dibujams los openSet con verde
     for i,spot in enumerate(OpenSet):
         pygame.draw.rect(win, (0, 255, 0), (2 + spot.x * w, 3 + spot.y * h, w - 4, h - 4))
@@ -82,6 +84,10 @@ def redrawGameWindow(win):
     # Draw Obstacles
     for spot in obstacles:
         pygame.draw.rect(win, (255, 255, 102), (2 + spot.x * w, 3 + spot.y * h, w - 4, h - 4))
+
+    # Draw start and end spot!
+    pygame.draw.rect(win, (255, 255, 255), (start.x * w, 1 + start.y * h, w, h))
+    pygame.draw.rect(win, (0, 204, 0), (end.x * w, 1 + end.y * h, w, h))
 
     pygame.display.update()
 
@@ -155,7 +161,7 @@ while gaming:
             system('cls')
             print('Finish!')
             gaming = False
-            path_file = open('Path_list', 'w')
+            path_file = open('Path_list.txt', 'w')
             for spot in path:
                 path_file.write(f'{spot.x, spot,y}')
             path_file.close()
