@@ -63,8 +63,6 @@ def redrawGameWindow(win):
     for i in range(cols):
         for j in range(rows):
             pygame.draw.rect(win, (0, 0, 255), (spots[i][j].x * w, 1 + spots[i][j].y * h, w, h), 1)
-
-
     
     # Dibujams los openSet con verde
     for i,spot in enumerate(OpenSet):
